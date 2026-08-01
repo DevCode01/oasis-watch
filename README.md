@@ -1,16 +1,16 @@
 # Oasis Watch
 
-**API** · **Shell (Bash)** · **v0.1.0**
+**Shell (Bash)** · **v0.1.0**
 
-_Simple pastebin API with syntax highlighting_
+_Directory backup tool with timestamped archives_
 
 ---
 
 ## Features
 
-- **Lightweight** — Minimal dependencies, no bloat
-- **Fast** — Optimized for speed and low resource usage
-- **CLI-first** — Designed for the terminal, works with pipes
+- Creates timestamped .tar.gz archives
+- Stores backups in ~/backups
+- Reports archive size
 
 ## Installation
 
@@ -22,12 +22,8 @@ cd oasis-watch
 ## Usage
 
 ```bash
-./oasis-watch.py --help
+bash oasis-watch.sh /path/to/dir
 ```
-
-## Development
-
-Contributions are welcome! Feel free to open issues or submit PRs.
 
 ## License
 

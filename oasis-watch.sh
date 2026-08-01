@@ -1,34 +1,23 @@
 #!/bin/bash
-#
-# $NAME - $DESC
-#
-
+# Backup a directory to ~/backups with a timestamp.
 set -euo pipefail
 
-VERSION="0.1.0"
+SRC="${1:-.}"
+if [ ! -d "$SRC" ]; then
+    echo "Error: directory not found: $SRC"
+    exit 1
+fi
 
-usage() {
-    cat <<EOF
-$NAME v${VERSION} - $DESC
+BACKUP_DIR="$HOME/backups"
+mkdir -p "$BACKUP_DIR"
 
-Usage: $NAME [options] [input]
+STAMP=$(date +%Y%m%d_%H%M%S)
+ABS_SRC=$(cd "$SRC" && pwd)
+NAME=$(basename "$ABS_SRC")
+DEST="$BACKUP_DIR/${NAME}_${STAMP}.tar.gz"
 
-Options:
-  -h, --help     Show this help
-  -v, --version  Show version
-EOF
-    exit 0
-}
+tar -czf "$DEST" -C "$(dirname "$ABS_SRC")" "oasis-watch"
+SIZE=$(du -h "$DEST" | awk '{print $1}')
 
-while [[ $# -gt 0 ]]; do
-    case "$1" in
-        -h|--help) usage ;;
-        -v|--version) echo "$NAME v${VERSION}"; exit 0 ;;
-        *) INPUT="$1" ;;
-    esac
-    shift
-done
-
-echo "$NAME v${VERSION} ready!"
-echo "$DESC"
-[[ -n "${INPUT:-}" ]] && echo "Processing: $INPUT"
+echo "Backup created: $DEST"
+echo "Size: $SIZE"
